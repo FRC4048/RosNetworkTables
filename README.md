@@ -1,2 +1,2 @@
-# RosNetworkTable
-ROS &lt;--> Network Table bridge for localization 
+# RosNetworkTables
+ROS &lt;--> Network Tables bridge for localization 
