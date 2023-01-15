@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+}
+
+group 'org.frc.team4048'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url "https://frcmaven.wpi.edu/artifactory/development/" }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    // Add ntcore-java
+    implementation "edu.wpi.first.ntcore:ntcore-java:${WPI_VERSION}"
+
+    // Add wpiutil-java
+    implementation "edu.wpi.first.wpiutil:wpiutil-java:${WPI_VERSION}"
+
+    // Add ntcore-jni for runtime. We are adding all supported platforms
+    // so that our application will work on all supported platforms.
+    implementation "edu.wpi.first.ntcore:ntcore-jni:${WPI_VERSION}:windowsx86-64"
+    implementation "edu.wpi.first.ntcore:ntcore-jni:${WPI_VERSION}:linuxx86-64"
+    implementation "edu.wpi.first.ntcore:ntcore-jni:${WPI_VERSION}:linuxarm64"
+    implementation "edu.wpi.first.ntcore:ntcore-jni:${WPI_VERSION}:osxuniversal"
+
+    implementation "edu.wpi.first.wpiutil:wpiutil-jni:${WPI_VERSION}:windowsx86-64"
+    implementation "edu.wpi.first.wpiutil:wpiutil-jni:${WPI_VERSION}:linuxx86-64"
+    implementation "edu.wpi.first.wpiutil:wpiutil-jni:${WPI_VERSION}:linuxarm64"
+    implementation "edu.wpi.first.wpiutil:wpiutil-jni:${WPI_VERSION}:osxuniversal"
+
+}
+
+test {
+    useJUnitPlatform()
+}
