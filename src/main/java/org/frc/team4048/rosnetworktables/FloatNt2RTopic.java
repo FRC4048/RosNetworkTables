@@ -3,18 +3,23 @@ package org.frc.team4048.rosnetworktables;
 import edu.wpi.first.networktables.FloatSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.TimestampedFloat;
+import org.frc.team4048.rosnetworktables.ros.MessageEvent;
+import std_msgs.Float32;
 
-public class FloatNt2RTopic extends NtToRTopic<Float> {
+public class FloatNt2RTopic extends NtToRTopic<Float,std_msgs.Float32> {
 
     public FloatNt2RTopic(NetworkTable table, String topic) {
         super(table.getFloatTopic(topic).subscribe(0.0F));
+        this.setRosPublisher(Main.getRosNode().createPublisher(topic, Float32._TYPE, message -> {
+            message.setData(getValueOrNull());
+        }));
     }
 
     @Override
     public Float getValueOrNull() {
         TimestampedFloat tsValue = getAtomic();
         if (tsValue.serverTime == 0) {
-            return null;
+            return -1f;
         } else {
             return tsValue.value;
         }

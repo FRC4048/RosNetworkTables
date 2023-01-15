@@ -1,18 +1,21 @@
 package org.frc.team4048.rosnetworktables;
 
 import edu.wpi.first.networktables.*;
+import std_msgs.Float32;
+import std_msgs.Float64;
 
-public class DoubleNt2RTopic extends NtToRTopic<Double> {
+public class DoubleNt2RTopic extends NtToRTopic<Double,std_msgs.Float64> {
 
-    public DoubleNt2RTopic(NetworkTable table, String topic) {
-        super(table.getDoubleTopic(topic).subscribe(0.0D));
+    public DoubleNt2RTopic(NetworkTable table, String nt_topic,String topic) {
+        super(table.getDoubleTopic(nt_topic).subscribe(0.0D));
+        this.setRosPublisher(Main.getRosNode().createPublisher(topic, Float64._TYPE, message -> message.setData(getValueOrNull())));
     }
 
     @Override
     public Double getValueOrNull() {
         TimestampedDouble tsValue = getAtomic();
         if (tsValue.serverTime == 0) {
-            return null;
+            return -1d;
         } else {
             return tsValue.value;
         }
