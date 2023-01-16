@@ -5,6 +5,16 @@ plugins {
 group 'org.frc.team4048'
 version '1.0-SNAPSHOT'
 
+jar {
+    manifest {
+        attributes "Main-Class": "org.frc.team4048.rosnetworktables.Main"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 repositories {
     mavenCentral()
     maven { url "https://frcmaven.wpi.edu/artifactory/development/" }
