@@ -8,9 +8,9 @@ import std_msgs.Float32;
 
 public class FloatNt2RTopic extends NtToRTopic<Float,std_msgs.Float32> {
 
-    public FloatNt2RTopic(NetworkTable table, String topic) {
-        super(table.getFloatTopic(topic).subscribe(0.0F));
-        this.setRosPublisher(Main.getRosNode().createPublisher(topic, Float32._TYPE, message -> {
+    public FloatNt2RTopic(NetworkTable table, String ntTopic,String rosTopic) {
+        super(table.getFloatTopic(ntTopic).subscribe(0.0F));
+        this.setRosPublisher(Main.getRosNode().createPublisher(rosTopic, Float32._TYPE, message -> {
             message.setData(getValueOrNull());
         }));
     }
