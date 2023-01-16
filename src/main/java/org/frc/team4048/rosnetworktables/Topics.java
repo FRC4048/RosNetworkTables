@@ -19,9 +19,11 @@ public class Topics {
         return topics;
     }
 
-    public void runTopics() {
-        for (TranslatorTopic topic: topics) {
-            topic.runTranslation();
-        }
+    public void start() {
+        topics.forEach(TranslatorTopic::start);
+    }
+
+    public void stop() {
+        topics.forEach(TranslatorTopic::stop);
     }
 }
