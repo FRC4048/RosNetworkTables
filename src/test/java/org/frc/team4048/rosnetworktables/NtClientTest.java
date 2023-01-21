@@ -15,7 +15,7 @@ public class NtClientTest {
         NetworkTable table = inst.getTable("TestTopic");
         try (DoublePublisher xPub = table.getDoubleTopic("X").publish()) {
             inst.setServer("localhost");
-            inst.startClient4("test publisher");
+            inst.startClient3("test publisher");
             double x = 0.0;
             while (true) {
                 sleep(1000);
