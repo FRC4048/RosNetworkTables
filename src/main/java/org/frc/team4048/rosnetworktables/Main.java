@@ -26,15 +26,15 @@ public class Main {
         }
         Topics topics = initializeTopics();
         topics.start();
-        sleep(60000);
-        topics.stop();
+//        sleep(60000);
+//        topics.stop();
     }
 
     private static Topics initializeTopics() {
         Topics topics = new Topics();
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        NetworkTable table = inst.getTable("Shuffleboard/Gyro");
-        topics.withTopic(new DoubleNt2RTopic(table, "Xangle","imu",rosNode));
+        NetworkTable table = inst.getTable("TestTopic");
+        topics.withTopic(new DoubleArrayNt2ROdomTopic(table, "MyOdom","TestDoubleArray",rosNode));
 //        topics.withTopic(new DoubleR2NtTopic(table, "Y","testPub",rosNode));
         inst.setServer("10.40.48.1");  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
         inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar

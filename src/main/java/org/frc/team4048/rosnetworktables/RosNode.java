@@ -52,4 +52,8 @@ public class RosNode extends AbstractNodeMain {
      public boolean isInitialized() {
           return this.initialized;
      }
+
+     public<T extends Message> T createMessage(String topicType){
+          return node.getTopicMessageFactory().newFromType(topicType);
+     }
 }
