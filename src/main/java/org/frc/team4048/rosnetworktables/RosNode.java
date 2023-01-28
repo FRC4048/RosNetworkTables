@@ -4,6 +4,7 @@ import org.ros.internal.message.Message;
 import org.ros.namespace.GraphName;
 import org.ros.node.*;
 import org.ros.node.topic.Publisher;
+import org.ros.node.topic.Subscriber;
 
 import javax.annotation.Nullable;
 
@@ -19,6 +20,11 @@ public class RosNode extends AbstractNodeMain {
      public <T extends Message> Publisher<T> createPublisher(String topicName, String topicType){
           if (!initialized) return null;
           return node.newPublisher(topicName, topicType);
+     }
+     @Nullable
+     public <T extends Message> Subscriber<T> createSubscriber(String topicName, String topicType){
+          if (!initialized) return null;
+          return node.newSubscriber(topicName, topicType);
      }
 
 
