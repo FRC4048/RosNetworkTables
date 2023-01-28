@@ -15,7 +15,7 @@ public class Main {
     static RosNode rosNode;
 
     public static void main(String[] args) throws InterruptedException {
-        initRosNode("10.12.0.235",URI.create("http://10.11.7.137:11311"));
+        initRosNode("10.40.48.223",URI.create("http://10.40.48.95:11311"));
 //      Prints waiting every second while we wait for rosNode to init
         long st = System.currentTimeMillis();
         while (!rosNode.isInitialized()){
@@ -33,12 +33,12 @@ public class Main {
     private static Topics initializeTopics() {
         Topics topics = new Topics();
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        NetworkTable table = inst.getTable("Shuffleboard/Swerve");
-        topics.withTopic(new DoubleNt2RTopic(table, "imu","imu",rosNode));
-        topics.withTopic(new DoubleR2NtTopic(table, "Y","testPub",rosNode));
-        inst.setServer("localhost");  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
-//        inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
-        inst.startClient3("example client");
+        NetworkTable table = inst.getTable("Shuffleboard/Gyro");
+        topics.withTopic(new DoubleNt2RTopic(table, "Xangle","imu",rosNode));
+//        topics.withTopic(new DoubleR2NtTopic(table, "Y","testPub",rosNode));
+        inst.setServer("10.40.48.1");  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
+        inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
+        inst.startClient4("example client");
 
 
         return topics;
