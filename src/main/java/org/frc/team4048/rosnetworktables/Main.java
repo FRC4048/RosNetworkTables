@@ -3,13 +3,11 @@ package org.frc.team4048.rosnetworktables;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.ros.namespace.GraphName;
-import org.ros.node.*;
-import org.ros.node.topic.Publisher;
-import std_msgs.Float64;
+import org.ros.node.DefaultNodeMainExecutor;
+import org.ros.node.NodeConfiguration;
+import org.ros.node.NodeMainExecutor;
 
 import java.net.URI;
-
-import static java.lang.Thread.sleep;
 
 public class Main {
     static RosNode rosNode;
@@ -33,8 +31,8 @@ public class Main {
     private static Topics initializeTopics() {
         Topics topics = new Topics();
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        NetworkTable table = inst.getTable("TestTopic");
-        topics.withTopic(new DoubleArrayNt2ROdomTopic(table, "MyOdom","TestDoubleArray",rosNode));
+        NetworkTable table = inst.getTable("Shuffleboard/Test");
+        topics.withTopic(new DoubleArrayNt2CustPointTopic(table, "field","imu",rosNode));
 //        topics.withTopic(new DoubleR2NtTopic(table, "Y","testPub",rosNode));
         inst.setServer("10.40.48.1");  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
         inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
@@ -47,6 +45,7 @@ public class Main {
         NodeMainExecutor nodeMainExecutor = DefaultNodeMainExecutor.newDefault();
         rosNode = new RosNode();
         NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(hostIp);
+        nodeConfiguration.getTimeProvider().getCurrentTime();
         nodeConfiguration.setNodeName(GraphName.empty());
         nodeConfiguration.setMasterUri(rosMasterUri);
         nodeMainExecutor.execute(rosNode,nodeConfiguration);
