@@ -10,7 +10,7 @@ import org.ros.node.NodeMainExecutor;
 import java.net.URI;
 
 public class Main {
-    static RosNode rosNode;
+    private static RosNode rosNode;
 
     public static void main(String[] args) throws InterruptedException {
         initRosNode("10.40.48.223",URI.create("http://10.40.48.95:11311"));
@@ -32,8 +32,7 @@ public class Main {
         Topics topics = new Topics();
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         NetworkTable table = inst.getTable("Shuffleboard/Test");
-        topics.withTopic(new DoubleArrayNt2CustPointTopic(table, "field","imu",rosNode));
-//        topics.withTopic(new DoubleR2NtTopic(table, "Y","testPub",rosNode));
+        topics.withTopic(new DoubleArrayNt2CustomPointTopic(table, "field","imu",rosNode));
         inst.setServer("10.40.48.1");  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
         inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
         inst.startClient4("example client");

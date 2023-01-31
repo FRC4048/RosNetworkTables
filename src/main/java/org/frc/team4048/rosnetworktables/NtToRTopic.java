@@ -6,10 +6,10 @@ import edu.wpi.first.networktables.Subscriber;
 import org.ros.internal.message.Message;
 import org.ros.node.topic.Publisher;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 
 public abstract class NtToRTopic<T,R extends Message> implements TranslatorTopic {
-    private T lastValue;
     private NetworkTableInstance ntInst;
     private Subscriber ntSubscriber;
     // Ros publisher
@@ -25,10 +25,7 @@ public abstract class NtToRTopic<T,R extends Message> implements TranslatorTopic
     public void start() {
         // Register the NT subscriber to messages
         ntInst.addListener(ntSubscriber, EnumSet.of(NetworkTableEvent.Kind.kValueAll),
-                event -> {
-                    setLastValue((T) event.valueData.value.getValue());
-                    publishToRos(event);
-                });
+                event -> publishToRos((T)event.valueData.value.getValue()));
     }
 
     @Override
@@ -37,23 +34,10 @@ public abstract class NtToRTopic<T,R extends Message> implements TranslatorTopic
         // release any ROS resources
     }
 
-    /**
-     * Return the cached last value received.
-     * @return the last value received by this topic, NULL if none were received
-     */
-    public T getLastValue() {
-        return lastValue;
+    protected void publishToRos(T value){
+        assert getRosPublisher() != null : "Cant Publish Because publisher is null";
+        getRosPublisher().publish(populateMessage(value,getRosPublisher().newMessage()));
     }
-
-    public void setLastValue(T lastValue) {
-        this.lastValue = lastValue;
-    }
-
-    public Subscriber getNtSubscriber() {
-        return ntSubscriber;
-    }
-
-    protected abstract void publishToRos(NetworkTableEvent event);
 
     protected abstract R populateMessage(T value, R emptyMessage);
 

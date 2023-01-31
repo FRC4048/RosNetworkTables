@@ -11,13 +11,6 @@ public class FloatNt2RTopic extends NtToRTopic<Float, Float32> {
     }
 
     @Override
-    protected void publishToRos(NetworkTableEvent event) {
-        System.out.println("Received double " + event.valueData.value.getDouble());
-        if (getRosPublisher() == null) System.out.println("Cant Publish " + event.valueData.value.getDouble() + " Because publisher is null");
-        getRosPublisher().publish(populateMessage(event.valueData.value.getFloat(),getRosPublisher().newMessage()));
-    }
-
-    @Override
     protected Float32 populateMessage(Float value,Float32 emptyMessage) {
         emptyMessage.setData(value);
         return emptyMessage;
