@@ -1,14 +1,22 @@
 package org.frc.team4048.rosnetworktables;
 
-import edu.wpi.first.networktables.*;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEvent;
+import std_msgs.Float64;
 
-public class DoubleNt2RTopic extends NtToRTopic<Double> {
-    public DoubleNt2RTopic(NetworkTable table, String topic) {
-        super(table.getInstance(), table.getDoubleTopic(topic).subscribe(0.0D));
+public class DoubleNt2RTopic extends NtToRTopic<Double,Float64> {
+    public DoubleNt2RTopic(NetworkTable table, String ntTopic,String rosTopic,RosNode node) {
+        super(table.getInstance(), table.getDoubleTopic(ntTopic).subscribe(0.0D),node.createPublisher(rosTopic,Float64._TYPE));
     }
 
+    /**
+     * @param value value to populate message with
+     * @param emptyMessage empty message Object created by publisher
+     * @return message object with given data
+     */
     @Override
-    protected void publishToRos(NetworkTableEvent event) {
-        System.out.println("Received double " + event.valueData.value.getDouble());
+    protected Float64 populateMessage(Double value,Float64 emptyMessage) {
+        emptyMessage.setData(value);
+        return emptyMessage;
     }
 }

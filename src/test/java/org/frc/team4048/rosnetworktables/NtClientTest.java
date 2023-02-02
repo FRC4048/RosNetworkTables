@@ -1,5 +1,6 @@
 package org.frc.team4048.rosnetworktables;
 
+
 import edu.wpi.first.networktables.*;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ public class NtClientTest {
         NetworkTable table = inst.getTable("TestTopic");
         try (DoublePublisher xPub = table.getDoubleTopic("X").publish()) {
             inst.setServer("localhost");
-            inst.startClient4("test publisher");
+            inst.startClient3("test publisher");
             double x = 0.0;
             while (true) {
                 sleep(1000);

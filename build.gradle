@@ -7,7 +7,7 @@ version '1.0-SNAPSHOT'
 
 jar {
     manifest {
-        attributes "Main-Class": "org.frc.team4048.rosnetworktables.Main"
+        attributes "Main-Class": "org.frc.team4048.rosnetworktables.Launcher"
     }
 
     from {
@@ -17,10 +17,14 @@ jar {
 
 repositories {
     mavenCentral()
+    jcenter()
     maven { url "https://frcmaven.wpi.edu/artifactory/development/" }
+    maven { url "https://github.com/rosjava/rosjava_mvn_repo/raw/master" }
+
 }
 
 dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
@@ -41,6 +45,13 @@ dependencies {
     implementation "edu.wpi.first.wpiutil:wpiutil-jni:${WPI_VERSION}:linuxx86-64"
     implementation "edu.wpi.first.wpiutil:wpiutil-jni:${WPI_VERSION}:linuxarm64"
     implementation "edu.wpi.first.wpiutil:wpiutil-jni:${WPI_VERSION}:osxuniversal"
+
+    //    ROS
+    implementation 'org.ros.rosjava_core:rosjava:0.3.6'
+    implementation 'org.ros.rosjava_messages:geometry_msgs:1.11.+'
+    implementation 'org.ros.rosjava_bootstrap:message_generation:0.3.3'
+    implementation 'org.ros.rosjava_messages:std_msgs:0.5.11'
+    implementation 'org.ros.rosjava_messages:rosjava_test_msgs:0.3.0'
 
 }
 
