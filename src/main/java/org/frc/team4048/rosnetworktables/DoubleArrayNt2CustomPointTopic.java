@@ -4,8 +4,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import geometry_msgs.*;
 
 public class DoubleArrayNt2CustomPointTopic extends NtToRTopic<double[], Point> {
-    public DoubleArrayNt2CustomPointTopic(NetworkTable table, String topic, String rosTopic, RosNode node) {
-        super(table.getInstance(), table.getDoubleArrayTopic(topic).subscribe(new double[]{}),node.createPublisher(rosTopic,Point._TYPE));
+    public DoubleArrayNt2CustomPointTopic(NetworkTable table, String ntTopic, String rosTopic, RosNode node) {
+        super(table.getInstance(), table.getDoubleArrayTopic(ntTopic).subscribe(new double[]{}),node.createPublisher(rosTopic,Point._TYPE));
     }
 
     /**

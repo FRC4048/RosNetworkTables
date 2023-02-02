@@ -5,8 +5,8 @@ import edu.wpi.first.networktables.NetworkTableEvent;
 import std_msgs.Float64;
 
 public class DoubleNt2RTopic extends NtToRTopic<Double,Float64> {
-    public DoubleNt2RTopic(NetworkTable table, String topic,String rosTopic,RosNode node) {
-        super(table.getInstance(), table.getDoubleTopic(topic).subscribe(0.0D),node.createPublisher(rosTopic,Float64._TYPE));
+    public DoubleNt2RTopic(NetworkTable table, String ntTopic,String rosTopic,RosNode node) {
+        super(table.getInstance(), table.getDoubleTopic(ntTopic).subscribe(0.0D),node.createPublisher(rosTopic,Float64._TYPE));
     }
 
     /**

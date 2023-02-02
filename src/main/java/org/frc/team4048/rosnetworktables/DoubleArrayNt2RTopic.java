@@ -8,8 +8,8 @@ import std_msgs.Float64MultiArray;
 import java.util.Arrays;
 
 public class DoubleArrayNt2RTopic extends NtToRTopic<double[], Float64MultiArray> {
-    public DoubleArrayNt2RTopic(NetworkTable table, String topic, String rosTopic, RosNode node) {
-        super(table.getInstance(), table.getDoubleArrayTopic(topic).subscribe(new double[]{}),node.createPublisher(rosTopic,Float64MultiArray._TYPE));
+    public DoubleArrayNt2RTopic(NetworkTable table, String ntTopic, String rosTopic, RosNode node) {
+        super(table.getInstance(), table.getDoubleArrayTopic(ntTopic).subscribe(new double[]{}),node.createPublisher(rosTopic,Float64MultiArray._TYPE));
     }
 
     /**

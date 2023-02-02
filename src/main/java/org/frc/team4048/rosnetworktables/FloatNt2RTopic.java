@@ -6,8 +6,8 @@ import std_msgs.Float32;
 
 
 public class FloatNt2RTopic extends NtToRTopic<Float, Float32> {
-    public FloatNt2RTopic(NetworkTable table, String topic,String rosTopic,RosNode node) {
-        super(table.getInstance(), table.getDoubleTopic(topic).subscribe(0.0D),node.createPublisher(rosTopic, Float32._TYPE));
+    public FloatNt2RTopic(NetworkTable table, String ntTopic,String rosTopic,RosNode node) {
+        super(table.getInstance(), table.getDoubleTopic(ntTopic).subscribe(0.0D),node.createPublisher(rosTopic, Float32._TYPE));
     }
 
     @Override

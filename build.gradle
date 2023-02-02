@@ -7,7 +7,7 @@ version '1.0-SNAPSHOT'
 
 jar {
     manifest {
-        attributes "Main-Class": "org.frc.team4048.rosnetworktables.Main"
+        attributes "Main-Class": "org.frc.team4048.rosnetworktables.Launcher"
     }
 
     from {

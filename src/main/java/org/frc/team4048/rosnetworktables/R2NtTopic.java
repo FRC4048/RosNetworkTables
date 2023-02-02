@@ -9,7 +9,7 @@ import org.ros.node.topic.Subscriber;
 
 
 import java.util.EnumSet;
-
+//TODO make ntPublisher Generic
 public abstract class R2NtTopic<R extends Message> implements TranslatorTopic {
      private NetworkTableInstance ntInst;
      // Network table publisher
