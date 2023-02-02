@@ -11,6 +11,8 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 
+import static java.lang.Thread.sleep;
+
 public class NtRosProxy {
      private static NtRosProxy instance;
 
@@ -42,17 +44,20 @@ public class NtRosProxy {
           this.rosHostname = tempHostName;
      }
 
-     public void start() {
+     //TODO Add timeout
+     public void start() throws InterruptedException {
           if(started) return;
           started = true;
           initRosNode();
 //      Prints waiting every second while we wait for rosNode to init
+//          TODO add time out
           long st = System.currentTimeMillis();
           while (!rosNode.isInitialized()){
                if(System.currentTimeMillis()-st >=1000){
                     System.out.println("WAITING");
                     st=System.currentTimeMillis();
                }
+               sleep(100);
           }
           this.topics = initializeTopics();
           topics.start();
@@ -62,7 +67,7 @@ public class NtRosProxy {
           started = false;
      }
 
-     /**
+     /** TODO move init to NT init
       * NOTE topics will be at some point read from file instead of hard coded
       * @return List of topics application will handle
       */
@@ -72,7 +77,7 @@ public class NtRosProxy {
           NetworkTable table = inst.getTable("Shuffleboard/Test");
           topics.withTopic(new DoubleArrayNt2CustomPointTopic(table, "field","imu",rosNode));
           inst.setServer(networkTablesIP);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
-          inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
+//          inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
           inst.startClient4("example client");
           return topics;
      }

@@ -12,8 +12,9 @@ import java.util.EnumSet;
 
 public abstract class R2NtTopic<R extends Message> implements TranslatorTopic {
      private NetworkTableInstance ntInst;
+     // Network table publisher
      private Publisher ntPublisher;
-     // Ros publisher
+     // Ros Subscriber
      private Subscriber<R> rosSubscriber;
 
      protected R2NtTopic(NetworkTableInstance ntInst, Subscriber<R> rosSubscriber, Publisher ntPublisher) {
@@ -24,14 +25,14 @@ public abstract class R2NtTopic<R extends Message> implements TranslatorTopic {
 
      @Override
      public void start() {
-          // Register the NT subscriber to messages
+          // Publish value to networktables when ros subscriber receives message
           rosSubscriber.addMessageListener(this::publishToNt);
      }
 
      @Override
      public void stop() {
           ntPublisher.close();
-          // release any ROS resources
+          rosSubscriber.shutdown();
      }
 
      protected abstract void publishToNt(R value);

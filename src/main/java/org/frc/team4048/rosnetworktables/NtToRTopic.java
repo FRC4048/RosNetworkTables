@@ -3,6 +3,7 @@ package org.frc.team4048.rosnetworktables;
 import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.Subscriber;
+import org.jetbrains.annotations.NotNull;
 import org.ros.internal.message.Message;
 import org.ros.node.topic.Publisher;
 
@@ -25,6 +26,7 @@ public abstract class NtToRTopic<T,R extends Message> implements TranslatorTopic
     public void start() {
         // Register the NT subscriber to messages
         ntInst.addListener(ntSubscriber, EnumSet.of(NetworkTableEvent.Kind.kValueAll),
+// TODO this is bad practice needs to be look at
                 event -> publishToRos((T)event.valueData.value.getValue()));
     }
 
@@ -34,13 +36,14 @@ public abstract class NtToRTopic<T,R extends Message> implements TranslatorTopic
         // release any ROS resources
     }
 
-    protected void publishToRos(T value){
-        assert getRosPublisher() != null : "Cant Publish Because publisher is null";
+
+    private void publishToRos(T value){
         getRosPublisher().publish(populateMessage(value,getRosPublisher().newMessage()));
     }
 
     protected abstract R populateMessage(T value, R emptyMessage);
 
+    @NotNull
     public Publisher<R> getRosPublisher() {
         return rosPublisher;
     }
