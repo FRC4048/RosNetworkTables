@@ -85,7 +85,6 @@ public class NtRosProxy {
 
           List<TopicPair> topicPairs = ConfigFileParser.readTopics("config.carrot");
           List<TranslatorTopic> translators = ConfigFileParser.createTranslators(topicPairs, rosNode, ntTable);
-          System.out.println(translators);
           topics.withTopic(translators);
 
      }
