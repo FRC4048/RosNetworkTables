@@ -76,21 +76,17 @@ public class NtRosProxy {
       */
      public void stop(){
           topics.stop();
+          rosNode.stop();
           started = false;
      }
 
-     /**
-      * NOTE topics will be at some point read from file instead of hard coded
-      * @return List of topics application will handle
-      */
      private void initializeTopics() throws URISyntaxException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
           topics = new Topics();
 
-          ConfigFileParser configFileParser = new ConfigFileParser("config.carrot");
-          List<TopicPair> topicPairs = configFileParser.readTopics();
-          List<?> translators = configFileParser.createTranslators(topicPairs, rosNode, ntTable);
+          List<TopicPair> topicPairs = ConfigFileParser.readTopics("config.carrot");
+          List<TranslatorTopic> translators = ConfigFileParser.createTranslators(topicPairs, rosNode, ntTable);
           System.out.println(translators);
-          topics.withTopic((List<TranslatorTopic>) translators);
+          topics.withTopic(translators);
 
      }
      private void initRosNode(){

@@ -9,21 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigFileParser {
-     private final File file;
-     private static final String valueSeparator = "*";
+     private static final String commentChar = "//";
+     private static final String separatorChar = "\\^";
 
-     public ConfigFileParser(String filePath) throws URISyntaxException {
-          this.file = new File(ConfigFileParser.class.getClassLoader().getResource(filePath).toURI());
-     }
-
-     public List<TopicPair> readTopics() throws IOException, ClassNotFoundException {
+     public static List<TopicPair> readTopics(String filePath) throws IOException, ClassNotFoundException, URISyntaxException {
+          File file = new File(ConfigFileParser.class.getClassLoader().getResource(filePath).toURI());
           assert file.exists() : "Cant find config file";
           List<TopicPair> topicPairs = new ArrayList<>();
           BufferedReader bf = new BufferedReader(new FileReader(file));
           String currentLine;
           while((currentLine = bf.readLine()) != null){
                if (currentLine.isBlank())break;
-               String[] segments = currentLine.split("\\^");
+               if(currentLine.startsWith(commentChar))continue;
+               String[] segments = currentLine.split(separatorChar);
                Class<?> classType = Class.forName(segments[2]);
                String ntTopicName = "";
                String rosTopicName  = "";
@@ -34,12 +32,13 @@ public class ConfigFileParser {
                     ntTopicName = segments[1];
                     rosTopicName = segments[0];
                }
+               assert (rosTopicName.isBlank() || ntTopicName.isBlank()) : "Invalid RosTopic or NetworkTopic name";
                topicPairs.add(new TopicPair(ntTopicName,rosTopicName,classType));
           }
           return topicPairs;
 
      }
-     public List<TranslatorTopic> createTranslators(List<TopicPair> topicPairs, RosNode node, NetworkTable table) throws InvocationTargetException, InstantiationException, IllegalAccessException {
+     public static List<TranslatorTopic> createTranslators(List<TopicPair> topicPairs, RosNode node, NetworkTable table) throws InvocationTargetException, InstantiationException, IllegalAccessException {
           List<TranslatorTopic> list = new ArrayList<>();
           for (TopicPair pair: topicPairs){
                list.add((TranslatorTopic) pair.topicType.getConstructors()[0].newInstance(table,pair.ntTopic,pair.rosTopic,node));
