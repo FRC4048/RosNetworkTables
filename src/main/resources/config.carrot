@@ -1,5 +1,5 @@
-// Format = rosTopicName^NetworkTopicName^WrapperClass
-testRos^testNt^org.frc.team4048.rosnetworktables.DoubleR2NtTopic
+// Format = NetworkTopicName^rosTopicName^WrapperClass
+testNt^testRos^org.frc.team4048.rosnetworktables.DoubleR2NtTopic
 Gyro^imu^org.frc.team4048.rosnetworktables.DoubleArrayNt2CustomPointTopic
 
 

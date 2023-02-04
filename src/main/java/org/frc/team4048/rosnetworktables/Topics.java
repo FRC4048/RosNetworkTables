@@ -14,7 +14,7 @@ public class Topics {
         topics.add(topic);
         return this;
     }
-    public Topics withTopic(List<TranslatorTopic> topicList) {
+    public Topics withTopics(List<TranslatorTopic> topicList) {
         topics.addAll(topicList);
         return this;
     }

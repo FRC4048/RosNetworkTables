@@ -14,7 +14,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.List;
-import java.util.Properties;
 
 import static java.lang.Thread.sleep;
 
@@ -82,10 +81,10 @@ public class NtRosProxy {
 
      private void initializeTopics() throws URISyntaxException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
           topics = new Topics();
-
-          List<TopicPair> topicPairs = ConfigFileParser.readTopics("config.carrot");
-          List<TranslatorTopic> translators = ConfigFileParser.createTranslators(topicPairs, rosNode, ntTable);
-          topics.withTopic(translators);
+          ConfigFileParser parser = new ConfigFileParser("config.carrot");
+          parser.readTopics();
+          parser.createTranslators(rosNode, ntTable);
+          topics.withTopics(parser.getTranslators());
 
      }
      private void initRosNode(){
