@@ -7,16 +7,21 @@ import org.ros.node.DefaultNodeMainExecutor;
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Properties;
 
 import static java.lang.Thread.sleep;
 
 public class NtRosProxy {
      private static NtRosProxy instance;
 
-     public static NtRosProxy get() {
+     public synchronized static NtRosProxy get() {
           if(instance == null) instance = new NtRosProxy();
           return instance;
      }
@@ -26,6 +31,8 @@ public class NtRosProxy {
      private final String rosHostname;
      private final String networkTablesIP;
      private Topics topics;
+     private NetworkTableInstance ntInstance;
+     private NetworkTable ntTable;
      private boolean started = false;
 
      private NtRosProxy() {
@@ -45,7 +52,7 @@ public class NtRosProxy {
      }
 
      //TODO Add timeout
-     public void start() throws InterruptedException {
+     public void start() throws InterruptedException, URISyntaxException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
           if(started) return;
           started = true;
           initRosNode();
@@ -59,27 +66,32 @@ public class NtRosProxy {
                }
                sleep(100);
           }
-          this.topics = initializeTopics();
+          initNetworkTables();
+          initializeTopics();
           topics.start();
      }
+
+     /**
+      * TODO call this at some point
+      */
      public void stop(){
           topics.stop();
           started = false;
      }
 
-     /** TODO move init to NT init
+     /**
       * NOTE topics will be at some point read from file instead of hard coded
       * @return List of topics application will handle
       */
-     private Topics initializeTopics() {
-          Topics topics = new Topics();
-          NetworkTableInstance inst = NetworkTableInstance.getDefault();
-          NetworkTable table = inst.getTable("Shuffleboard/Test");
-          topics.withTopic(new DoubleArrayNt2CustomPointTopic(table, "field","imu",rosNode));
-          inst.setServer(networkTablesIP);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
-//          inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
-          inst.startClient4("example client");
-          return topics;
+     private void initializeTopics() throws URISyntaxException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+          topics = new Topics();
+
+          ConfigFileParser configFileParser = new ConfigFileParser("config.carrot");
+          List<TopicPair> topicPairs = configFileParser.readTopics();
+          List<?> translators = configFileParser.createTranslators(topicPairs, rosNode, ntTable);
+          System.out.println(translators);
+          topics.withTopic((List<TranslatorTopic>) translators);
+
      }
      private void initRosNode(){
           NodeMainExecutor nodeMainExecutor = DefaultNodeMainExecutor.newDefault();
@@ -89,5 +101,13 @@ public class NtRosProxy {
           nodeConfiguration.setNodeName(GraphName.empty());
           nodeConfiguration.setMasterUri(URI.create(rosMasterURI));
           nodeMainExecutor.execute(rosNode,nodeConfiguration);
+     }
+
+     private void initNetworkTables(){
+          ntInstance =  NetworkTableInstance.getDefault();
+          ntInstance.setServer(networkTablesIP);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
+//          inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
+          ntInstance.startClient4("example client");
+          ntTable = ntInstance.getTable("Shuffleboard/Test");
      }
 }

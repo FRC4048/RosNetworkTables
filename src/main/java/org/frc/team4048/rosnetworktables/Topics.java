@@ -14,6 +14,10 @@ public class Topics {
         topics.add(topic);
         return this;
     }
+    public Topics withTopic(List<TranslatorTopic> topicList) {
+        topics.addAll(topicList);
+        return this;
+    }
 
     public List<TranslatorTopic> getTopics() {
         return topics;
