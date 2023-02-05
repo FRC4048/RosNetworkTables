@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ConfigFileParser {
      private static final String commentChar = "//";
-     private static final String separatorChar = "\\^";
+     private static final String separatorChar = " ";
      private final File file;
      private List<TopicPair> topicPairList;
      private List<TranslatorTopic> translators;
@@ -30,8 +30,8 @@ public class ConfigFileParser {
                if(currentLine.startsWith(commentChar))continue;
                String[] segments = currentLine.split(separatorChar);
                assert segments.length == 3 : "Incorrect Number of Arguments on line " + i;
-               Class<?> classType = Class.forName(segments[2]);
-               assert TranslatorTopic.class.isAssignableFrom(classType) : "Unsuitable Translator on line " + i;
+
+               Class<? extends TranslatorTopic> classType = Class.forName(segments[2]).asSubclass(TranslatorTopic.class);
                String ntTopicName = segments[0];
                String rosTopicName = segments[1];
                assert (rosTopicName.isBlank() || ntTopicName.isBlank()) : "Invalid RosTopic or NetworkTopic name on line " + i;
