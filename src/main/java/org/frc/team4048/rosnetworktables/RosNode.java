@@ -55,8 +55,8 @@ public class RosNode extends AbstractNodeMain {
 
 
      public void stop() {
-          if (initialized)return;
+          if (!initialized)return;
           node.shutdown();
-
+          initialized = false;
      }
 }

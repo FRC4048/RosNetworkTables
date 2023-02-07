@@ -5,6 +5,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import org.ros.internal.message.Message;
 import org.ros.node.topic.Subscriber;
 
+import java.util.stream.IntStream;
+
 //TODO make ntPublisher Generic
 public abstract class R2NtTopic<R extends Message> implements TranslatorTopic {
     private NetworkTableInstance ntInst;
@@ -27,7 +29,7 @@ public abstract class R2NtTopic<R extends Message> implements TranslatorTopic {
 
     @Override
     public void stop() {
-//          networkTableEntry.close();
+        networkTableEntry.delete();
         rosSubscriber.shutdown();
     }
 

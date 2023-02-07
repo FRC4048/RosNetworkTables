@@ -16,6 +16,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
+import static org.frc.team4048.rosnetworktables.Constants.NT_TABLE_NAME;
 
 public class NtRosProxy {
      private static NtRosProxy instance;
@@ -53,7 +54,7 @@ public class NtRosProxy {
      }
 
      //TODO Add timeout
-     public void start() throws InterruptedException, URISyntaxException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+     public void start() throws InterruptedException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
           if(started) return;
           started = true;
           initRosNode();
@@ -76,12 +77,21 @@ public class NtRosProxy {
       * TODO call this at some point
       */
      public void stop(){
+          if (!started) return;
           topics.stop();
           rosNode.stop();
           started = false;
      }
 
-     private void initializeTopics() throws URISyntaxException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+     /**
+      * creates topics from configuration file 'config.carrot'
+      * @throws IOException
+      * @throws ClassNotFoundException
+      * @throws InvocationTargetException
+      * @throws InstantiationException
+      * @throws IllegalAccessException
+      */
+     private void initializeTopics() throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
           topics = new Topics();
           ConfigFileParser parser = new ConfigFileParser("config.carrot");
           parser.readTopics();
@@ -89,6 +99,10 @@ public class NtRosProxy {
           topics.withTopics(parser.getTranslators());
 
      }
+
+     /**
+      * create ros node that handles ros publishers and subscribers
+      */
      private void initRosNode(){
           NodeMainExecutor nodeMainExecutor = DefaultNodeMainExecutor.newDefault();
           rosNode = new RosNode();
@@ -99,11 +113,14 @@ public class NtRosProxy {
           nodeMainExecutor.execute(rosNode,nodeConfiguration);
      }
 
+     /**
+      * starts a network table Client that publishes and subscribes to data
+      */
      private void initNetworkTables(){
           ntInstance =  NetworkTableInstance.getDefault();
           ntInstance.setServer(networkTablesIP);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
 //          inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
           ntInstance.startClient();
-          ntTable = ntInstance.getTable("Shuffleboard/Test");
+          ntTable = ntInstance.getTable(NT_TABLE_NAME);
      }
 }

@@ -11,7 +11,7 @@ public class DoubleArrayNt2CustomPointTopic extends NtToRTopic<double[], Point> 
     /**
      * Method used to populate message with network tables values to a ROS message
      *
-     * @param value        double array into format of [0]=AccelerationX, [1]=AccelerationY, [2]=AccelerationZ
+     * @param value double array in format of [0]=XPos, [1]=yPos, [2]=yaw
      * @param emptyMessage empty message Object created by publisher
      * @return message object with given data
      */

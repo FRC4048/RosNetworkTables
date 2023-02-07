@@ -14,8 +14,4 @@ public class DoubleR2NtTopic extends R2NtTopic<Float64> {
         getNetworkTableEntry().setDouble(value.getData());
     }
 
-//     public DoublePublisher narrow(){
-//          return (DoublePublisher) this.getNetworkTableEntry();
-//     }
-
 }

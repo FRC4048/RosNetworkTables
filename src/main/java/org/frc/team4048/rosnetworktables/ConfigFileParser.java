@@ -14,10 +14,18 @@ public class ConfigFileParser {
      private final File file;
      private List<TopicPair> topicPairList;
      private List<TranslatorTopic> translators;
-     public ConfigFileParser(String filePath) throws URISyntaxException {
+     public ConfigFileParser(String filePath) {
           this.file = new File(filePath);
      }
 
+     /**
+      * parses config file into a list of {@link org.frc.team4048.rosnetworktables.TopicPair}
+      * that can then be transformed into a ros <-> network tables translator with the function
+      * <br> {@link #createTranslators(RosNode, NetworkTable)}
+      * @throws IOException  If an I/O error occurs
+      * @throws ClassNotFoundException if the class in the config file cannot be located
+      * @see #createTranslators(RosNode, NetworkTable)
+      */
      public void readTopics() throws IOException, ClassNotFoundException {
           assert file.exists() : "Cant find config file";
           List<TopicPair> topicPairs = new ArrayList<>();

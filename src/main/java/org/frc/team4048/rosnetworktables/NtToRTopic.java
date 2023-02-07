@@ -28,8 +28,8 @@ public abstract class NtToRTopic<T, R extends Message> implements TranslatorTopi
 
     @Override
     public void stop() {
-        // networkTableEntry.close();
-        // release any ROS resources
+         networkTableEntry.delete();
+         rosPublisher.shutdown();
     }
 
 

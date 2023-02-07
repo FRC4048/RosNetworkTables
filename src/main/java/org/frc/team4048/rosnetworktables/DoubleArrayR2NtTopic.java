@@ -14,8 +14,4 @@ public class DoubleArrayR2NtTopic extends R2NtTopic<Float64MultiArray> {
         getNetworkTableEntry().setDoubleArray(value.getData());
     }
 
-//     public DoubleArrayPublisher narrow(){
-//          return (DoubleArrayPublisher) this.getNetworkTableEntry();
-//     }
-
 }
