@@ -6,7 +6,7 @@ import std_msgs.Float64;
 public class DoubleR2NtTopic extends R2NtTopic<Float64> {
 
     public DoubleR2NtTopic(NetworkTable table, String ntTopic, String rosTopic, RosNode node) {
-        super(table.getInstance(), node.createSubscriber(rosTopic, Float64._TYPE), table.getInstance().getEntry(ntTopic));
+        super(node.createSubscriber(rosTopic, Float64._TYPE), table.getInstance().getEntry(ntTopic));
     }
 
     @Override

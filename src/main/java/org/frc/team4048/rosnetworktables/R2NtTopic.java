@@ -9,14 +9,12 @@ import java.util.stream.IntStream;
 
 //TODO make ntPublisher Generic
 public abstract class R2NtTopic<R extends Message> implements TranslatorTopic {
-    private NetworkTableInstance ntInst;
     // Network table publisher
     private NetworkTableEntry networkTableEntry;
     // Ros Subscriber
     private Subscriber<R> rosSubscriber;
 
-    protected R2NtTopic(NetworkTableInstance ntInst, Subscriber<R> rosSubscriber, NetworkTableEntry networkTableEntry) {
-        this.ntInst = ntInst;
+    protected R2NtTopic(Subscriber<R> rosSubscriber, NetworkTableEntry networkTableEntry) {
         this.rosSubscriber = rosSubscriber;
         this.networkTableEntry = networkTableEntry;
     }
