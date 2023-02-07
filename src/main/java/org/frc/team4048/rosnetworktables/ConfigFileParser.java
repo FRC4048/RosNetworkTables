@@ -15,7 +15,7 @@ public class ConfigFileParser {
      private List<TopicPair> topicPairList;
      private List<TranslatorTopic> translators;
      public ConfigFileParser(String filePath) throws URISyntaxException {
-          this.file = new File(ConfigFileParser.class.getClassLoader().getResource(filePath).toURI());
+          this.file = new File(filePath);
      }
 
      public void readTopics() throws IOException, ClassNotFoundException {

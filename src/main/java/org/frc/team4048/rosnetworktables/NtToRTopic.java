@@ -1,44 +1,40 @@
 package org.frc.team4048.rosnetworktables;
 
-import edu.wpi.first.networktables.NetworkTableEvent;
+import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.Subscriber;
 import org.jetbrains.annotations.NotNull;
 import org.ros.internal.message.Message;
 import org.ros.node.topic.Publisher;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-
-public abstract class NtToRTopic<T,R extends Message> implements TranslatorTopic {
+public abstract class NtToRTopic<T, R extends Message> implements TranslatorTopic {
     private NetworkTableInstance ntInst;
-    private Subscriber ntSubscriber;
+    private NetworkTableEntry networkTableEntry;
     // Ros publisher
     private Publisher<R> rosPublisher;
 
-    protected NtToRTopic(NetworkTableInstance ntInst, Subscriber ntSubscriber,Publisher<R> rosPublisher) {
+    protected NtToRTopic(NetworkTableInstance ntInst, NetworkTableEntry networkTableEntry, Publisher<R> rosPublisher) {
         this.ntInst = ntInst;
-        this.ntSubscriber = ntSubscriber;
+        this.networkTableEntry = networkTableEntry;
         this.rosPublisher = rosPublisher;
     }
 
     @Override
     public void start() {
         // Register the NT subscriber to messages
-        ntInst.addListener(ntSubscriber, EnumSet.of(NetworkTableEvent.Kind.kValueAll),
-// TODO this is bad practice needs to be look at
-                event -> publishToRos((T)event.valueData.value.getValue()));
+        ntInst.addEntryListener(networkTableEntry,
+                entryNotification -> publishToRos((T) entryNotification.value.getValue()), EntryListenerFlags.kLocal | EntryListenerFlags.kUpdate);
     }
 
     @Override
     public void stop() {
-        ntSubscriber.close();
+        // networkTableEntry.close();
         // release any ROS resources
     }
 
 
-    private void publishToRos(T value){
-        getRosPublisher().publish(populateMessage(value,getRosPublisher().newMessage()));
+    private void publishToRos(T value) {
+        getRosPublisher().publish(populateMessage(value, getRosPublisher().newMessage()));
     }
 
     protected abstract R populateMessage(T value, R emptyMessage);

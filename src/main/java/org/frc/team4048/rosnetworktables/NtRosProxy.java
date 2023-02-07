@@ -42,8 +42,10 @@ public class NtRosProxy {
           assert networkTablesIP != null : "Environment Variable not set " + Constants.NT_IP;
 
           String tempHostName = "0.0.0.0";
-          try { tempHostName = InetAddress.getLocalHost().getHostAddress();
-          }catch (UnknownHostException ignore){}
+          try {
+               tempHostName = InetAddress.getLocalHost().getHostAddress();
+          } catch (UnknownHostException ignore){
+          }
 
           this.rosMasterURI = rosMasterURI;
           this.networkTablesIP = networkTablesIP;
@@ -101,7 +103,7 @@ public class NtRosProxy {
           ntInstance =  NetworkTableInstance.getDefault();
           ntInstance.setServer(networkTablesIP);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
 //          inst.setServerTeam(4048);  // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
-          ntInstance.startClient4("example client");
+          ntInstance.startClient();
           ntTable = ntInstance.getTable("Shuffleboard/Test");
      }
 }
