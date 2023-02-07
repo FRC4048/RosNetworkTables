@@ -13,7 +13,7 @@ public class Topics {
     /**
      * addes the topic provided to the local {@link #topics} list
      * @param topic topic you want to add
-     * @return
+     * @return current object (used for chaining methods)
      */
     public Topics withTopic(TranslatorTopic topic) {
         topics.add(topic);
