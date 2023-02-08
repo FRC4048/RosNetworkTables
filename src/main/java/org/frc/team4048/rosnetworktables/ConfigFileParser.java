@@ -46,6 +46,7 @@ public class ConfigFileParser {
                topicPairs.add(new TopicPair(ntTopicName,rosTopicName,classType));
           }
           this.topicPairList = topicPairs;
+          bf.close();
 
      }
      public void createTranslators(RosNode node, NetworkTable table) throws InvocationTargetException, InstantiationException, IllegalAccessException {
