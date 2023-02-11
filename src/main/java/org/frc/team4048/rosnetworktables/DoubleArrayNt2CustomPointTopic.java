@@ -19,6 +19,7 @@ public class DoubleArrayNt2CustomPointTopic extends NtToRTopic<double[], Point> 
         emptyMessage.setX(value[0]); // x pos value
         emptyMessage.setY(value[1]);// y pose value
         emptyMessage.setZ(value[2]);// yaw value
+        System.out.printf("Sent Value x=%s, y=%s, yaw=%s\n",value[0],value[1],value[2]);
         return emptyMessage;
     }
 }
