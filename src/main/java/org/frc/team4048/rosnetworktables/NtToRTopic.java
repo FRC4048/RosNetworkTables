@@ -27,7 +27,9 @@ public abstract class NtToRTopic<T,R extends Message> implements TranslatorTopic
         // Register the NT subscriber to messages
         ntInst.addListener(ntSubscriber, EnumSet.of(NetworkTableEvent.Kind.kValueAll),
 // TODO this is bad practice needs to be look at
-                event -> publishToRos((T)event.valueData.value.getValue()));
+                event -> {
+            publishToRos((T)event.valueData.value.getValue());
+                });
     }
 
     @Override
