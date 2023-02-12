@@ -1,5 +1,5 @@
 // Format = NetworkTopicName rosTopicName WrapperClass
-testNt testRos org.frc.team4048.rosnetworktables.DoubleR2NtTopic
+LocalizationResult my_msg_epic org.frc.team4048.rosnetworktables.CustomPointTopicR2NtTopic
 Gyro imu org.frc.team4048.rosnetworktables.DoubleArrayNt2CustomPointTopic
 
 
