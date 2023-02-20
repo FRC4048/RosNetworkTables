@@ -18,7 +18,7 @@ jar {
 repositories {
     mavenCentral()
     jcenter()
-    maven { url "https://frcmaven.wpi.edu/artifactory/development/" }
+    maven { url "https://frcmaven.wpi.edu/artifactory/release/" }
     maven { url "https://github.com/rosjava/rosjava_mvn_repo/raw/master" }
 
 }

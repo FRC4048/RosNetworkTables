@@ -19,3 +19,38 @@ method. Running that test method (e.g. from IDEA) as a unit test will start a pr
  * The test server can be reached by opening a connection to `localhost`
  * The table name that the tests publishes to is `TestTopic` and the value is a double with the name `X`
 
+<H2>Docker</H2>
+<H3>Build</H3>
+The program is intended to run as a docker container on the target hardware (Raspberry pi).
+In order to build the docker image, in a terminal (starting at the project's top level directory):
+```
+cd Docker
+./build.sh
+```
+This would create an image TAR file (`nt2ros.tar`) that you'd need to deploy over to the target hardware.
+
+<H3>Deploy</H3>
+1. Copy the tar file to the target hardware (Pi):
+```
+# Dont forget the ':' at the end of the command!
+scp nt2ros.tar pi@<Pi.IP.address>:
+```
+
+2. On the target hardware, do:
+```
+docker load -i nt2ros.tar
+```
+Clean the filesystem:
+```
+rm nt2ros.tar
+```
+<H3>Run</H3>
+Normally, the program should run when the Pi boots up, but following an installation, you would run it manually:
+```
+docker run nt2ros
+```
+The default runtime configuration is set up to run with the Roborio: The IP addresses are hard-coded for the Roborio and the Jetson.
+When running in test, you can change the IP addresses like:
+```
+docker run -e NT_IP=<ip.address> ROS_MASTER_URI=<ip.address> ROS_IP=<ip.address> nt2ros
+```
