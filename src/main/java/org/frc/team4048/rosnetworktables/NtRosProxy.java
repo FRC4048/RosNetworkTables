@@ -41,9 +41,8 @@ public class NtRosProxy {
           String networkTablesIP = System.getenv(Constants.NT_IP);
           assert networkTablesIP != null : "Environment Variable not set " + Constants.NT_IP;
 
-          String tempHostName = "0.0.0.0";
-          try { tempHostName = InetAddress.getLocalHost().getHostAddress();
-          }catch (UnknownHostException ignore){}
+          String tempHostName = System.getenv(Constants.ROS_IP);
+          assert tempHostName != null : "Environment Variable not set " + Constants.ROS_IP;
 
           this.rosMasterURI = rosMasterURI;
           this.networkTablesIP = networkTablesIP;
