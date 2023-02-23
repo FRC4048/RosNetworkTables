@@ -12,9 +12,14 @@ ENV ROS_MASTER_URI=http://10.40.48.95
 # Default value for the ros server (this host) is the Pi
 ENV ROS_IP=10.40.48.94
 # PRELOAD wpilib ntcore jni since there is an issue with the jni dynamic load
-# ENV LD_PRELOAD=wpilib/linux/arm64/shared/libwpiutiljni.so
+ENV LD_PRELOAD=wpilib/linux/arm64/shared/libwpiutiljni.so
 
 WORKDIR nt2ros
+
+# Install missing library for network tables
+RUN apt update
+RUN apt install libatomic1
+
 # contents is where all the contents resides on the host
 COPY contents .
 # Parameters and command to run when the container is run
