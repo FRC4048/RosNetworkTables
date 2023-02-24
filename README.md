@@ -52,5 +52,5 @@ docker run nt2ros
 The default runtime configuration is set up to run with the Roborio: The IP addresses are hard-coded for the Roborio and the Jetson.
 When running in test, you can change the IP addresses like:
 ```
-docker run -e NT_IP=<ip.address> ROS_MASTER_URI=<ip.address> ROS_IP=<ip.address> nt2ros
+docker run -e NT_IP=<ip.address> -e ROS_MASTER_URI=<ip.address> -e ROS_IP=<ip.address> nt2ros
 ```

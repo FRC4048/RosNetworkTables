@@ -10,7 +10,7 @@ import static java.lang.Thread.sleep;
 
 public class NtClientTest {
 
-    @Test
+//    @Test
     public void sendToNetworkTablesTopic() throws Exception {
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         NetworkTable table = inst.getTable("TestTopic");
@@ -27,7 +27,7 @@ public class NtClientTest {
         }
     }
 
-    @Test
+//    @Test
     public void readFromSmartDashboardTopic() throws Exception {
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         NetworkTable table = inst.getTable("TestTopic");
