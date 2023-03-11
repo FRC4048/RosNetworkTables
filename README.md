@@ -54,3 +54,36 @@ When running in test, you can change the IP addresses like:
 ```
 docker run -e NT_IP=<ip.address> -e ROS_MASTER_URI=<ip.address> -e ROS_IP=<ip.address> nt2ros
 ```
+<H2>Configuring the Pi</H2>
+<H3>Make file system read-write</H3>
+1. Launch the WPILIB GUI
+2. Make the system "Writable"
+3. SSH to the pi and change the mount
+```
+ssh pi@wpilibpi.local
+```
+4. Edit and change `/etc/fstab` to remove the "RO" from `/boot` and `/` file systems
+5. Edit and remove the two `sudo mount ...` commands from `/etc/bash.bash_logout`
+6. Reboot `sudo reboot`
+
+<H3>Install docker</H3>
+1. Make sure the pi is connected to the network
+2. Set the correct date and time:
+`sudo date MMDDhhmm`  (For Month Day Hour minute)
+3. `sudo apt update`
+4. `sudo apt install ca-certificates curl gnupg lsb-release`
+5. `sudo mkdir -m 0755 -p /etc/apt/keyrings`
+6. `curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg`
+7. `echo \
+   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null`
+8. `sudo apt update`   
+9. `sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`   
+10. Verify docker is installed: `sudo docker run hello-world`
+
+<H3>Post installation</H3>
+1. `sudo groupadd docker`
+2. `sudo usermod -aG docker pi` 
+   (pi is the username used to log in)
+3. logout and log back in
+4. Verify running without sudo: `docker image ls`
