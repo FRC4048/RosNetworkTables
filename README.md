@@ -78,9 +78,7 @@ ssh pi@wpilibpi.local
 4. `sudo apt install ca-certificates curl gnupg lsb-release`
 5. `sudo mkdir -m 0755 -p /etc/apt/keyrings`
 6. `curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg`
-7. `echo \
-   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null`
+7. `echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null`
 8. `sudo apt update`   
 9. `sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`   
 10. Verify docker is installed: `sudo docker run hello-world`
@@ -91,3 +89,4 @@ ssh pi@wpilibpi.local
    (pi is the username used to log in)
 3. logout and log back in
 4. Verify running without sudo: `docker image ls`
+
