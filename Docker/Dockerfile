@@ -10,7 +10,7 @@ ENV NT_IP=10.40.48.2
 # Default value for the ros server is the Jetson
 ENV ROS_MASTER_URI=http://10.40.48.95
 # Default value for the ros server (this host) is the Pi
-ENV ROS_IP=10.40.48.94
+ENV ROS_IP=10.40.48.11
 # PRELOAD wpilib ntcore jni since there is an issue with the jni dynamic load
 ENV LD_PRELOAD=wpilib/linux/arm64/shared/libwpiutiljni.so
 
