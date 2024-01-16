@@ -9,6 +9,5 @@ public class TopicPair {
           this.ntTopic = ntTopic;
           this.rosTopic = rosTopic;
           this.topicType = topicType;
-
      }
 }
