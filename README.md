@@ -90,3 +90,10 @@ ssh pi@wpilibpi.local
 3. logout and log back in
 4. Verify running without sudo: `docker image ls`
 
+## Update to a new version of wpilib
+The wpilib libraries that are required for the docker container build are located in a zip file at the 
+`src/main/lib` folder in this repo. When you are upgrading the library for your project do the following:
+1. Update the Gradle dependencies in `gradle.properties` (this is needed for the Java portion)
+2. Download the new binaries from https://frcmaven.wpi.edu/ui/native/release/edu/wpi/first/wpiutil/wpiutil-cpp into the `lib` directory
+3. Change the version of the upzip command in `Docker/build.sh`
+4. Rebuild the docker image

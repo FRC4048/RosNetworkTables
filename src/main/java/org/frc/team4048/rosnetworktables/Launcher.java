@@ -7,6 +7,12 @@ import java.util.List;
 
 public class Launcher {
      public static void main(String[] args) throws InterruptedException, URISyntaxException, IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
-          NtRosProxy.get().start();
+          try {
+               NtRosProxy.get().start();
+          } catch (Exception ex) {
+               System.err.println("Launcher caught exception: " + ex.getMessage());
+               ex.printStackTrace();
+               NtRosProxy.get().stop();
+          }
      }
 }
