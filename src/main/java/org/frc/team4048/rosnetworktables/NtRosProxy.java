@@ -32,7 +32,6 @@ public class NtRosProxy {
         this.networkTablesIP = networkTablesIP;
     }
 
-    //TODO Add timeout
     public void start() throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         if (started) {
             return;
