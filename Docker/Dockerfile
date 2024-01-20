@@ -14,7 +14,7 @@ WORKDIR nt2ros
 
 # Install missing library for network tables
 RUN apt update
-RUN apt install libatomic1
+RUN apt -y install libatomic1
 
 # contents is where all the contents resides on the host
 COPY contents .
